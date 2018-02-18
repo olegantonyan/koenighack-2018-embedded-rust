@@ -15,7 +15,7 @@ use core::fmt::Write;
 use cortex_m::asm;
 use cortex_m_semihosting::hio;
 
-//use stm32f40x::{USART6};
+//use stm32f40x::{gpiod, RCC};
 
 fn main() {
     let mut stdout = hio::hstdout().unwrap();
@@ -23,11 +23,20 @@ fn main() {
 
     let mut count = 0u32;
     loop {
-        writeln!(stdout, "iteration {}", count).unwrap();
+        writeln!(stdout, "KoenigHack 2018 {}", count).unwrap();
         count += 1;
     }
+    /*cortex_m::interrupt::free(|cs| {
+        let gpioe = GPIOD.borrow(cs);
+        let rcc = RCC.borrow(cs);
 
-    //let mut peripherals = stm32f40x::Peripherals::take().unwrap();
+        rcc.ahbenr.modify(|_, w| w.iopden().enabled());
+    });*/
+    /*unsafe {
+        let mut peripherals = stm32f40x::Peripherals::take().unwrap();
+        peripherals.GPIOD.odr.write(|w| w.bits(14));
+    }*/
+
     //peripherals.rcc.apb1enr.modify(|_, w| w.usart2en().enabled());
     //peripherals.rcc.ahb1enr.modify(|_, w| w.gpioaen().enabled());
 }
